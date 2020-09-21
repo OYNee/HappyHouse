@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="accountMapper">
+
+	<insert id="join">
+		insert into
+		account(userid,passwd,name,addr1,addr2,email,phone,status) values
+		(#{userid},#{passwd},#{name},#{addr1},#{addr2},#{email},#{phone},#{status})
+	</insert>
+
+	<select id="login" resultType="accountDto">
+		select userid, name, addr1, addr2,
+		email, phone, status
+		from account
+		where userid = #{userid} and passwd =
+		#{passwd}
+	</select>
+
+	<update id="updateMember">
+		update account
+		set phone=#{phone},
+		passwd=#{passwd},
+		addr1=#{addr1}, addr2=#{addr2}
+		where userid=#{userid}
+	</update>
+
+	<delete id="deleteMember">
+		delete from account
+		where userid = #{userid}
+	</delete>
+
+	<select id="searchPasswd" resultType="MemberPasswordDto">
+		select passwd
+		from account
+		where userid = #{userid} and name = #{name} and phone =
+		#{phone} and
+		email = #{email}
+	</select>
+
+	<insert id="insertProfile">
+		insert into
+		profile(userid,fav_dong1,fav_dong2,fav_dong3, mailing) values
+		(#{userid},#{dong1},#{dong2},#{dong3},#{mailing})
+	</insert>
+
+	<update id="updateProfile">
+		update profile
+		set fav_dong1=#{dong1},
+		fav_dong2=#{dong2}, fav_dong3=#{dong3}, mailing=#{mailing}
+		where
+		userid=#{userid}
+	</update>
+
+	<delete id="deleteProfile">
+		delete from profile
+		where userid = #{userid}
+	</delete>
+
+	<select id="getProfile" resultType="MyInterestArea">
+		select userid, fav_dong1 as
+		dong1, fav_dong2 as dong2, fav_dong3 as dong3, mailing
+		from profile
+		where userid = #{userid}
+	</select>
+
+	<select id="idCheck" resultType="Integer">
+		SELECT count(*) FROM account
+		WHERE userid = #{idFromAjax}
+	</select>
+
+	<!-- 회원정보 수정시 비번 확인 -->
+	<select id="passwdCheck" resultType="Integer">
+		SELECT count(*) FROM account
+		WHERE userid=#{userid} and passwd = #{passwd}
+	</select>
+
+	<!-- 회원인증 -->
+	<update id="changeStatus">
+		update account
+		set status=#{status}
+		where userid=#{userid}
+	</update>
+	
+	<!-- 메일링 서비스 -->
+	<select id="getUserEmail" resultType="java.lang.String">
+		select email
+		from account natural join profile
+		where 1=1 and
+		status='on' and mailing='on'
+	</select>
+
+</mapper>    
+    
+    
+    
+    
+    

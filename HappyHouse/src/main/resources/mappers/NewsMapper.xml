@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="news">
+
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO news(
+		title,
+		originallink,
+		link,
+		description,
+		pubdate
+		)VALUES
+		<foreach item="item" index="index" collection="list"
+			separator=",">
+			(
+			#{item.title},
+			#{item.originallink},
+			#{item.link},
+			#{item.description},
+			#{item.pubdate}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insert" parameterType="NewsDto">
+		INSERT INTO news (
+		title,
+		originallink,
+		link,
+		description,
+		pubdate
+		) VALUES
+		(
+		#{title},
+		#{originallink},
+		#{link},
+		#{description},
+		#{pubdate}
+		)
+	</insert>
+
+	<!-- 임시 ~ -->
+	<select id="selectAll" resultType="NewsDto">
+		select id, title, originallink,
+		link,
+		description, pubdate from news
+		where 1=1
+	</select>
+	<!-- ~임시 -->
+
+
+
+	<select id="searchAll" resultType="NewsDto">
+		select id, title, originallink, link,
+		description, pubdate from news
+		where
+		1=1
+		<if test="keyword != null">
+			and title like #{keyword} or description like #{keyword}
+		</if>
+		order by id desc
+		limit #{currentPage},#{sizePerPage}
+	</select>
+
+	<select id="getTotalCount" resultType="Integer">
+		select count(*)
+		from news
+		where
+		1=1
+		<if test="value != null">
+			and title like #{keyword} or description like #{keyword}
+		</if>
+	</select>
+	
+	<select id="getDailyNews" resultType="NewsDto">
+		select title, description, link, pubdate from news where DATE(savetime) >= DATE_SUB(NOW(), INTERVAL 1 DAY) limit 0,10;
+	</select>
+</mapper>    
+    
+    
+    
+    
+    
+    

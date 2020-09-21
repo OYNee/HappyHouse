@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="houseMapper">
+	<select id="searchAll" resultType="HouseDeal">
+		select *
+		from housedeal
+		where 1=1
+		and type in
+		<foreach item="type" index="" collection="t" open="("
+			separator="," close=")">
+			#{type}
+		</foreach>
+		<if test="dong != null">and dong like #{dong}</if>
+		<if test="aptname != null">and aptname like #{aptname}</if>
+		order by type, no desc
+		limit #{currentPage},#{sizePerPage}
+	</select>
+
+	<select id="search" resultType="HouseDeal">
+		select *
+		from housedeal
+		where no =
+		#{no}
+	</select>
+
+	<select id="getTotalCount" resultType="Integer">
+		select count(no)
+		from housedeal
+		where 1=1
+		and type in
+		<foreach item="t" collection="searchType" open="("
+			separator="," close=")">
+			#{t}
+		</foreach>
+		<if test="dong != null">and dong like #{dong}</if>
+		<if test="aptname != null">and aptname like #{aptname}</if>
+		order by no desc
+	</select>
+	
+	<select id="testSearchAll" resultType="HouseDeal">
+		select *
+		from housedeal
+		where 1=1
+		and type in
+		<foreach item="type" index="" collection="t" open="("
+			separator="," close=")">
+			#{type}
+		</foreach>
+		order by type, no desc
+	</select>
+	
+	<select id="getList" resultType="HouseDeal">
+		select *
+		from housedeal
+		where 1=1
+		and dong like #{dong}
+		and aptname like #{aptname}
+		order by type, no desc
+	</select>
+</mapper>

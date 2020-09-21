@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sidocode">
+
+	<select id="selectSido" resultType="SidoCodeDto">
+		select distinct left(code,2) sido_code,
+		city as sido_name FROM baseaddress ORDER BY
+		code
+	</select>
+
+	<select id="selectGugun" resultType="SidoCodeDto">
+		SELECT distinct left(code,5)
+		gugun_code, gugun as gugun_name FROM baseaddress
+		where left(code,2)=#{sido}
+		ORDER BY code
+	</select>
+
+	<select id="selectDong" resultType="HouseInfo">
+		SELECT distinct dong, code FROM houseinfo
+		where code = #{gugun}
+		ORDER BY dong
+	</select>
+
+	<select id="selectApt" resultType="HouseInfo">
+		SELECT no,dong,AptName,code,jibun,lat,lng, buildYear FROM houseinfo WHERE dong = #{dong}
+		ORDER BY AptName
+	</select>
+	
+	<!-- 임시 -->
+	<select id="selectDongLatLan" resultType="HouseInfo">
+		SELECT lat,lng FROM baseaddress WHERE dong = #{dong}
+	</select>
+	<!-- 임시 -->
+
+
+
+
+</mapper>

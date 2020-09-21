@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="shopMapper">
+	<select id="searchAll" resultType="ShoppingMall">
+		select *
+		from shop
+		where 1=1
+		and
+		dong like #{dong}
+		order by no desc
+		limit #{currentPage},#{sizePerPage}
+	</select>
+
+	<select id="search" resultType="ShoppingMall">
+		select *
+		from shop
+		where no =
+		#{num}
+	</select>
+
+	<select id="getTotalCount" resultType="Integer">
+		select count(no)
+		from shop
+		where 1=1 and dong like #{dong}
+		order by no desc
+	</select>
+
+	<select id="testSearchAll" resultType="ShoppingMall">
+		select *
+		from shop
+		where 1=1
+		and code1 in
+		<foreach item="type" index="" collection="t" open="("
+			separator="," close=")">
+			#{type}
+		</foreach>
+		and dong = #{dong}
+	</select>
+</mapper>

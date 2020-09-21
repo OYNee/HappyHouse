@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<typeAliases>
+		<package name="com.ssafy.happyhouse.model.dto" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="mappers/AccountMapper.xml" />
+		<mapper resource="mappers/HouseMapper.xml" />
+		<mapper resource="mappers/ShopMapper.xml" />
+		<mapper resource="mappers/NoticeMapper.xml" />
+		<mapper resource="mappers/QnAMapper.xml" />
+		<mapper resource="mappers/NewsMapper.xml" />
+		<mapper resource="mappers/SidoCodeMapper.xml" />
+	</mappers>
+</configuration>

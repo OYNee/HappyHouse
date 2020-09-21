@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qna">
+
+	<select id="selectQnA" resultType="QnADto">
+		select id as id,
+			   title as title,
+			   content as content,
+			   userid as userid,
+			   datetime as datetime,
+			   reply_content as replyContent,
+			   reply_datetime as replyDatetime,
+			   reply_userid as replyUserid
+		  from qna  
+		 order by id desc
+		 limit #{currentPage},#{sizePerPage}
+	</select>
+
+	<insert id="insertQnA" parameterType="QnADto">
+		insert into qna(title, content, userid) 
+   			values(#{title}, #{content}, #{userid})
+	</insert>
+	
+	<update id="updateQnA" parameterType="QnADto">
+		update qna
+		set title = #{title}, content = #{content},datetime= NOW()
+		where id = #{id} 
+	</update>
+	
+	<delete id="deleteQnA" parameterType="int">
+		delete
+		from qna
+		where id = #{id} 
+	</delete>
+	
+	<select id="detailQnA" resultType="QnADto">
+		select id,
+			   title,
+			   content,
+			   userid,
+			   datetime,
+			   reply_content as replyContent,
+			   reply_datetime as replyDatetime,
+			   reply_userid as replyUserid
+		from qna  
+		where id = #{id} 
+	</select>
+	
+	<update id="updateReply" parameterType="QnADto">
+		update qna
+		set reply_content = #{replyContent},reply_datetime = NOW(),reply_userid = #{replyUserid}
+		where id = #{id} 
+	</update>
+	
+	<select id="searchQ" resultType="QnADto">
+		select id as id,
+			   title as title,
+			   content as content,
+			   userid as userid,
+			   datetime as datetime,
+			   reply_content as replyContent,
+			   reply_datetime as replyDatetime,
+			   reply_userid as replyUserid
+		  from qna where 1=1
+		  <if test="title != null">and title like #{title}</if>
+		<if test="content != null">and content like #{content}</if>
+		 order by id desc
+	</select>
+	
+	<select id="getQuestionByUserid" resultType="QnADto">
+		select id,
+			   title,
+			   content,
+			   userid,
+			   datetime,
+			   reply_content as replyContent,
+			   reply_datetime as replyDatetime,
+			   reply_userid as replyUserid
+		  from qna
+		  where userid = #{userid}
+		 order by id desc
+	</select>
+	
+	<select id="getTotalCount" resultType="Integer">
+		select count(*) from qna
+		where 1=1
+		order by id desc
+	</select>
+	
+</mapper>
+
