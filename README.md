@@ -1,5 +1,7 @@
 # HappyHouse
 HappyHouse(2020.04 ~ 2020.06)
+* 팀장: 오유민
+* 팀원: 오우승
 
 ## 백엔드
 * DBMS: MySQL
